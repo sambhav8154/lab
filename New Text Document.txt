@@ -1,0 +1,465 @@
+1.linear search 
+#include <stdio.h>
+ 
+int main()
+{
+  int array[100], search, c, n;
+ 
+  printf("Enter number of elements in array\n");
+  scanf("%d", &n);
+ 
+  printf("Enter %d integer(s)\n", n);
+ 
+  for (c = 0; c < n; c++)
+    scanf("%d", &array[c]);
+ 
+  printf("Enter a number to search\n");
+  scanf("%d", &search);
+ 
+  for (c = 0; c < n; c++)
+  {
+    if (array[c] == search)    /* If required element is found */
+    {
+      printf("%d is present at location %d.\n", search, c+1);
+      break;
+    }
+  }
+  if (c == n)
+    printf("%d isn't present in the array.\n", search);
+ 
+  return 0;
+}
+
+2.binary search
+
+#include <stdio.h>
+ 
+int main()
+{
+   int c, first, last, middle, n, search, array[100];
+ 
+   printf("Enter number of elements\n");
+   scanf("%d",&n);
+ 
+   printf("Enter %d integers\n", n);
+ 
+   for (c = 0; c < n; c++)
+      scanf("%d",&array[c]);
+ 
+   printf("Enter value to find\n");
+   scanf("%d", &search);
+ 
+   first = 0;
+   last = n - 1;
+   middle = (first+last)/2;
+ 
+   while (first <= last) {
+      if (array[middle] < search)
+         first = middle + 1;    
+      else if (array[middle] == search) {
+         printf("%d found at location %d.\n", search, middle+1);
+         break;
+      }
+      else
+         last = middle - 1;
+ 
+      middle = (first + last)/2;
+   }
+   if (first > last)
+      printf("Not found! %d isn't present in the list.\n", search);
+ 
+   return 0;  
+}
+
+3.bubble sort
+
+#include <stdio.h>
+ 
+int main()
+{
+  int array[100], n, c, d, swap;
+ 
+  printf("Enter number of elements\n");
+  scanf("%d", &n);
+ 
+  printf("Enter %d integers\n", n);
+ 
+  for (c = 0; c < n; c++)
+    scanf("%d", &array[c]);
+ 
+  for (c = 0 ; c < n - 1; c++)
+  {
+    for (d = 0 ; d < n - c - 1; d++)
+    {
+      if (array[d] > array[d+1]) /* For decreasing order use < */
+      {
+        swap       = array[d];
+        array[d]   = array[d+1];
+        array[d+1] = swap;
+      }
+    }
+  }
+ 
+  printf("Sorted list in ascending order:\n");
+ 
+  for (c = 0; c < n; c++)
+     printf("%d\n", array[c]);
+ 
+  return 0;
+}
+
+4.insertion sort
+
+#include <stdio.h>
+ 
+int main()
+{
+  int n, array[1000], c, d, t;
+ 
+  printf("Enter number of elements\n");
+  scanf("%d", &n);
+ 
+  printf("Enter %d integers\n", n);
+ 
+  for (c = 0; c < n; c++)
+    scanf("%d", &array[c]);
+ 
+  for (c = 1 ; c <= n - 1; c++) {
+    d = c;
+ 
+    while ( d > 0 && array[d-1] > array[d]) {
+      t          = array[d];
+      array[d]   = array[d-1];
+      array[d-1] = t;
+ 
+      d--;
+    }
+  }
+ 
+  printf("Sorted list in ascending order:\n");
+ 
+  for (c = 0; c <= n - 1; c++) {
+    printf("%d\n", array[c]);
+  }
+ 
+  return 0;
+}
+
+5.quicksort
+
+#include<stdio.h>
+void quicksort(int number[25],int first,int last){
+   int i, j, pivot, temp;
+
+   if(first<last){
+      pivot=first;
+      i=first;
+      j=last;
+
+      while(i<j){
+         while(number[i]<=number[pivot]&&i<last)
+            i++;
+         while(number[j]>number[pivot])
+            j--;
+         if(i<j){
+            temp=number[i];
+            number[i]=number[j];
+            number[j]=temp;
+         }
+      }
+
+      temp=number[pivot];
+      number[pivot]=number[j];
+      number[j]=temp;
+      quicksort(number,first,j-1);
+      quicksort(number,j+1,last);
+
+   }
+}
+
+int main(){
+   int i, count, number[25];
+
+   printf("How many elements are u going to enter?: ");
+   scanf("%d",&count);
+
+   printf("Enter %d elements: ", count);
+   for(i=0;i<count;i++)
+      scanf("%d",&number[i]);
+
+   quicksort(number,0,count-1);
+
+   printf("Order of Sorted elements: ");
+   for(i=0;i<count;i++)
+      printf(" %d",number[i]);
+
+   return 0;
+
+6.mergesort
+
+#include <stdio.h>
+
+#define max 10
+
+int a[11] = { 10, 14, 19, 26, 27, 31, 33, 35, 42, 44, 0 };
+int b[10];
+
+void merging(int low, int mid, int high) {
+   int l1, l2, i;
+
+   for(l1 = low, l2 = mid + 1, i = low; l1 <= mid && l2 <= high; i++) {
+      if(a[l1] <= a[l2])
+         b[i] = a[l1++];
+      else
+         b[i] = a[l2++];
+   }
+   
+   while(l1 <= mid)    
+      b[i++] = a[l1++];
+
+   while(l2 <= high)   
+      b[i++] = a[l2++];
+
+   for(i = low; i <= high; i++)
+      a[i] = b[i];
+}
+
+void sort(int low, int high) {
+   int mid;
+   
+   if(low < high) {
+      mid = (low + high) / 2;
+      sort(low, mid);
+      sort(mid+1, high);
+      merging(low, mid, high);
+   } else { 
+      return;
+   }   
+}
+
+int main() { 
+   int i;
+
+   printf("List before sorting\n");
+   
+   for(i = 0; i <= max; i++)
+      printf("%d ", a[i]);
+
+   sort(0, max);
+
+   printf("\nList after sorting\n");
+   
+   for(i = 0; i <= max; i++)
+      printf("%d ", a[i]);
+}
+
+7.heapsort
+
+#include<stdio.h>
+ 
+void create(int []);
+void down_adjust(int [],int);
+ 
+void main()
+{
+	int heap[30],n,i,last,temp;
+	printf("Enter no. of elements:");
+	scanf("%d",&n);
+	printf("\nEnter elements:");
+	for(i=1;i<=n;i++)
+		scanf("%d",&heap[i]);
+	
+	//create a heap
+	heap[0]=n;
+	create(heap);
+	
+	//sorting
+	while(heap[0] > 1)
+	{
+		//swap heap[1] and heap[last]
+		last=heap[0];
+		temp=heap[1];
+		heap[1]=heap[last];
+		heap[last]=temp;
+		heap[0]--;
+		down_adjust(heap,1);
+	}
+ 
+	//print sorted data
+	printf("\nArray after sorting:\n");
+	for(i=1;i<=n;i++)
+		printf("%d ",heap[i]);
+}
+ 
+void create(int heap[])
+{
+	int i,n;
+	n=heap[0]; //no. of elements
+	for(i=n/2;i>=1;i--)
+		down_adjust(heap,i);
+}
+ 
+void down_adjust(int heap[],int i)
+{
+	int j,temp,n,flag=1;
+	n=heap[0];
+	
+	while(2*i<=n && flag==1)
+	{
+		j=2*i;	//j points to left child
+		if(j+1<=n && heap[j+1] > heap[j])
+			j=j+1;
+		if(heap[i] > heap[j])
+			flag=0;
+		else
+		{
+			temp=heap[i];
+			heap[i]=heap[j];
+			heap[j]=temp;
+			i=j;
+		}
+	}
+}
+
+8.counting sort
+
+#include <stdio.h>  
+ 
+/*  Counting sort function  */
+void counting_sort(int A[], int k, int n)
+{
+    int i, j;
+    int B[15], C[100];
+    for (i = 0; i <= k; i++)
+        C[i] = 0;
+    for (j = 1; j <= n; j++)
+        C[A[j]] = C[A[j]] + 1;
+    for (i = 1; i <= k; i++)
+        C[i] = C[i] + C[i-1];
+    for (j = n; j >= 1; j--)
+    {
+        B[C[A[j]]] = A[j];
+        C[A[j]] = C[A[j]] - 1;
+    }
+    printf("The Sorted array is : ");
+    for (i = 1; i <= n; i++)
+        printf("%d ", B[i]);
+}
+/*  End of counting_sort()  */
+ 
+/*  The main() begins  */
+int main()
+{
+    int n, k = 0, A[15], i;
+    printf("Enter the number of input : ");
+    scanf("%d", &n);
+    printf("\nEnter the elements to be sorted :\n");
+    for (i = 1; i <= n; i++)
+    {
+        scanf("%d", &A[i]);
+        if (A[i] > k) {
+            k = A[i];
+        }
+    }
+    counting_sort(A, k, n);
+    printf("\n");
+    return 0;
+}
+
+9.selection sort
+
+#include <stdio.h>
+ 
+int main()
+{
+  int array[100], n, c, d, position, swap;
+ 
+  printf("Enter number of elements\n");
+  scanf("%d", &n);
+ 
+  printf("Enter %d integers\n", n);
+ 
+  for (c = 0; c < n; c++)
+    scanf("%d", &array[c]);
+ 
+  for (c = 0; c < (n - 1); c++)
+  {
+    position = c;
+   
+    for (d = c + 1; d < n; d++)
+    {
+      if (array[position] > array[d])
+        position = d;
+    }
+    if (position != c)
+    {
+      swap = array[c];
+      array[c] = array[position];
+      array[position] = swap;
+    }
+  }
+ 
+  printf("Sorted list in ascending order:\n");
+ 
+  for (c = 0; c < n; c++)
+    printf("%d\n", array[c]);
+ 
+  return 0;
+}
+
+10.radix sort
+
+#include<stdio.h>
+ 
+int getMax(int arr[], int n) {
+    int mx = arr[0];
+    int i;
+    for (i = 1; i < n; i++)
+        if (arr[i] > mx)
+            mx = arr[i];
+    return mx;
+}
+ 
+void countSort(int arr[], int n, int exp) {
+    int output[n]; // output array
+    int i, count[10] = { 0 };
+ 
+    // Store count of occurrences in count[]
+    for (i = 0; i < n; i++)
+        count[(arr[i] / exp) % 10]++;
+ 
+    for (i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+ 
+    // Build the output array
+    for (i = n - 1; i >= 0; i--) {
+        output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+        count[(arr[i] / exp) % 10]--;
+    }
+ 
+    for (i = 0; i < n; i++)
+        arr[i] = output[i];
+}
+ 
+// The main function to that sorts arr[] of size n using Radix Sort
+void radixsort(int arr[], int n) {
+    int m = getMax(arr, n);
+ 
+    int exp;
+    for (exp = 1; m / exp > 0; exp *= 10)
+        countSort(arr, n, exp);
+}
+ 
+void print(int arr[], int n) {
+    int i;
+    for (i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+}
+ 
+int main() {
+    int arr[] = { 170, 45, 75, 90, 802, 24, 2, 66 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+    radixsort(arr, n);
+    print(arr, n);
+    return 0;
+}
